@@ -12,7 +12,7 @@ function CartPage() {
 	};
 
 	const checkoutHandler = () => {
-		navigate('/login?redirect=shipping');
+		navigate('/shipping');
 	};
 
 	const totalItems = cartItems.reduce((acc, item) => acc + item.qty, 0);
