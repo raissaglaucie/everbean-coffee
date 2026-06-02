@@ -33,149 +33,287 @@ function RegisterPage() {
 
 	const inputStyle = {
 		width: '100%',
-		padding: '0.8rem',
-		borderRadius: '8px',
-		border: '1px solid var(--latte)',
+		padding: '1rem 0',
+		border: 'none',
+		borderBottom: '1px solid var(--latte)',
+		backgroundColor: 'transparent',
 		fontSize: '1rem',
-		fontFamily: 'Lato, sans-serif',
-		marginBottom: '1rem',
+		fontFamily: 'Montserrat',
 		color: 'var(--espresso)',
+		outline: 'none',
+		transition: 'border-color 0.2s',
 	};
 
 	const labelStyle = {
 		display: 'block',
 		color: 'var(--coffee)',
-		marginBottom: '0.3rem',
-		fontWeight: '700',
+		fontSize: '0.6rem',
+		letterSpacing: '3px',
+		textTransform: 'uppercase',
+		fontFamily: 'Montserrat',
+		fontWeight: '600',
+		marginBottom: '0.8rem',
 	};
 
 	return (
 		<div
 			style={{
-				maxWidth: '400px',
-				margin: '4rem auto',
-				padding: '2rem',
-				backgroundColor: 'white',
-				borderRadius: '16px',
-				boxShadow: '0 4px 20px rgba(28,10,0,0.1)',
+				minHeight: '100vh',
+				display: 'grid',
+				gridTemplateColumns: '1fr 1fr',
 			}}
 		>
-			<h1
+			{/* Left — Image */}
+			<div
 				style={{
-					fontFamily: 'Playfair Display, serif',
-					color: 'var(--espresso)',
-					marginBottom: '2rem',
-					textAlign: 'center',
+					position: 'relative',
+					overflow: 'hidden',
+					minHeight: '100vh',
 				}}
 			>
-				☕ Create Account
-			</h1>
-
-			{message && (
-				<p
-					style={{
-						color: 'red',
-						backgroundColor: '#fff0f0',
-						padding: '0.8rem',
-						borderRadius: '8px',
-						marginBottom: '1rem',
-					}}
-				>
-					{message}
-				</p>
-			)}
-
-			{error && (
-				<p
-					style={{
-						color: 'red',
-						backgroundColor: '#fff0f0',
-						padding: '0.8rem',
-						borderRadius: '8px',
-						marginBottom: '1rem',
-					}}
-				>
-					{error.detail || 'Registration failed'}
-				</p>
-			)}
-
-			<form onSubmit={submitHandler}>
-				<label style={labelStyle}>Name</label>
-				<input
-					type='text'
-					placeholder='Your name'
-					value={name}
-					onChange={(e) => setName(e.target.value)}
-					style={inputStyle}
-					required
-				/>
-
-				<label style={labelStyle}>Email</label>
-				<input
-					type='email'
-					placeholder='your@email.com'
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
-					style={inputStyle}
-					required
-				/>
-
-				<label style={labelStyle}>Password</label>
-				<input
-					type='password'
-					placeholder='••••••••'
-					value={password}
-					onChange={(e) => setPassword(e.target.value)}
-					style={inputStyle}
-					required
-				/>
-
-				<label style={labelStyle}>Confirm Password</label>
-				<input
-					type='password'
-					placeholder='••••••••'
-					value={confirmPassword}
-					onChange={(e) => setConfirmPassword(e.target.value)}
-					style={inputStyle}
-					required
-				/>
-
-				<button
-					type='submit'
-					disabled={loading}
+				<img
+					src='https://images.unsplash.com/photo-1504630083234-14187a9df0f5?w=1200&q=85'
+					alt='Coffee'
 					style={{
 						width: '100%',
-						padding: '0.9rem',
-						backgroundColor: 'var(--espresso)',
-						color: 'var(--cream)',
-						border: 'none',
-						borderRadius: '8px',
-						fontSize: '1rem',
-						cursor: 'pointer',
-						fontFamily: 'Lato, sans-serif',
-						letterSpacing: '1px',
-						marginTop: '0.5rem',
+						height: '100%',
+						objectFit: 'cover',
+						opacity: 0.5,
+					}}
+				/>
+				<div
+					style={{
+						position: 'absolute',
+						inset: 0,
+						background:
+							'linear-gradient(to right, rgba(13,7,5,0.3) 0%, rgba(13,7,5,0.7) 100%)',
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'flex-end',
+						padding: '4rem',
 					}}
 				>
-					{loading ? 'Creating account...' : 'Create Account'}
-				</button>
-			</form>
+					<Link
+						to='/'
+						style={{
+							fontFamily: 'Cormorant Garamond, serif',
+							color: 'var(--accent-gold)',
+							fontSize: '2rem',
+							fontWeight: '300',
+							letterSpacing: '6px',
+							textTransform: 'uppercase',
+							textDecoration: 'none',
+							marginBottom: '2rem',
+						}}
+					>
+						Everbean
+					</Link>
+					<p
+						style={{
+							fontFamily: 'Cormorant Garamond, serif',
+							color: '#FFFFFF',
+							fontSize: '2.5rem',
+							fontWeight: '300',
+							fontStyle: 'italic',
+							lineHeight: '1.2',
+							opacity: 0.8,
+						}}
+					>
+						"Join a community
+						<br />
+						of coffee lovers"
+					</p>
+				</div>
+			</div>
 
-			<p
+			{/* Right — Form */}
+			<div
 				style={{
-					textAlign: 'center',
-					marginTop: '1.5rem',
-					color: 'var(--coffee)',
+					backgroundColor: 'var(--milk-foam)',
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'center',
+					padding: '4rem 5rem',
 				}}
 			>
-				Already have an account?{' '}
-				<Link
-					to={redirect ? `/login?redirect=${redirect}` : '/login'}
-					style={{ color: 'var(--accent-gold)', fontWeight: '700' }}
+				<p
+					style={{
+						color: 'var(--accent-gold)',
+						fontSize: '0.6rem',
+						letterSpacing: '4px',
+						textTransform: 'uppercase',
+						fontFamily: 'Montserrat',
+						fontWeight: '600',
+						marginBottom: '1rem',
+					}}
 				>
-					Sign in
-				</Link>
-			</p>
+					New Member
+				</p>
+
+				<h1
+					style={{
+						fontFamily: 'Cormorant Garamond, serif',
+						color: 'var(--espresso)',
+						fontSize: '3rem',
+						fontWeight: '300',
+						marginBottom: '3rem',
+						letterSpacing: '-1px',
+					}}
+				>
+					Create Account
+				</h1>
+
+				{message && (
+					<div
+						style={{
+							backgroundColor: 'rgba(230,57,70,0.08)',
+							border: '1px solid rgba(230,57,70,0.2)',
+							padding: '1rem 1.5rem',
+							marginBottom: '2rem',
+						}}
+					>
+						<p
+							style={{
+								color: '#E63946',
+								fontSize: '0.8rem',
+								fontFamily: 'Montserrat',
+							}}
+						>
+							{message}
+						</p>
+					</div>
+				)}
+
+				{error && (
+					<div
+						style={{
+							backgroundColor: 'rgba(230,57,70,0.08)',
+							border: '1px solid rgba(230,57,70,0.2)',
+							padding: '1rem 1.5rem',
+							marginBottom: '2rem',
+						}}
+					>
+						<p
+							style={{
+								color: '#E63946',
+								fontSize: '0.8rem',
+								fontFamily: 'Montserrat',
+							}}
+						>
+							{error.detail || 'Registration failed'}
+						</p>
+					</div>
+				)}
+
+				<form onSubmit={submitHandler}>
+					<div style={{ marginBottom: '1.5rem' }}>
+						<label style={labelStyle}>Full Name</label>
+						<input
+							type='text'
+							placeholder='Your name'
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+							required
+							style={inputStyle}
+							onFocus={(e) => (e.target.style.borderColor = 'var(--espresso)')}
+							onBlur={(e) => (e.target.style.borderColor = 'var(--latte)')}
+						/>
+					</div>
+
+					<div style={{ marginBottom: '1.5rem' }}>
+						<label style={labelStyle}>Email Address</label>
+						<input
+							type='email'
+							placeholder='your@email.com'
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+							required
+							style={inputStyle}
+							onFocus={(e) => (e.target.style.borderColor = 'var(--espresso)')}
+							onBlur={(e) => (e.target.style.borderColor = 'var(--latte)')}
+						/>
+					</div>
+
+					<div style={{ marginBottom: '1.5rem' }}>
+						<label style={labelStyle}>Password</label>
+						<input
+							type='password'
+							placeholder='••••••••'
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							required
+							style={inputStyle}
+							onFocus={(e) => (e.target.style.borderColor = 'var(--espresso)')}
+							onBlur={(e) => (e.target.style.borderColor = 'var(--latte)')}
+						/>
+					</div>
+
+					<div style={{ marginBottom: '3rem' }}>
+						<label style={labelStyle}>Confirm Password</label>
+						<input
+							type='password'
+							placeholder='••••••••'
+							value={confirmPassword}
+							onChange={(e) => setConfirmPassword(e.target.value)}
+							required
+							style={inputStyle}
+							onFocus={(e) => (e.target.style.borderColor = 'var(--espresso)')}
+							onBlur={(e) => (e.target.style.borderColor = 'var(--latte)')}
+						/>
+					</div>
+
+					<button
+						type='submit'
+						disabled={loading}
+						style={{
+							width: '100%',
+							padding: '1.2rem',
+							backgroundColor: 'var(--espresso)',
+							color: 'var(--cream)',
+							border: 'none',
+							fontSize: '0.65rem',
+							fontFamily: 'Montserrat, sans-serif',
+							fontWeight: '700',
+							letterSpacing: '3px',
+							textTransform: 'uppercase',
+							cursor: 'pointer',
+							transition: 'background 0.3s',
+							marginBottom: '2rem',
+						}}
+						onMouseEnter={(e) =>
+							(e.target.style.backgroundColor = 'var(--coffee)')
+						}
+						onMouseLeave={(e) =>
+							(e.target.style.backgroundColor = 'var(--espresso)')
+						}
+					>
+						{loading ? 'Creating account...' : 'Create Account'}
+					</button>
+				</form>
+
+				<p
+					style={{
+						color: 'var(--coffee)',
+						fontSize: '0.8rem',
+						fontFamily: 'Montserrat',
+						fontWeight: '300',
+					}}
+				>
+					Already have an account?{' '}
+					<Link
+						to={redirect ? `/login?redirect=${redirect}` : '/login'}
+						style={{
+							color: 'var(--espresso)',
+							fontWeight: '600',
+							textDecoration: 'none',
+							borderBottom: '1px solid var(--accent-gold)',
+							paddingBottom: '0.1rem',
+						}}
+					>
+						Sign in
+					</Link>
+				</p>
+			</div>
 		</div>
 	);
 }
