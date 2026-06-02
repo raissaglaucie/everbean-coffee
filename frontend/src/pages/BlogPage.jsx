@@ -30,240 +30,326 @@ function BlogPage() {
 	};
 
 	return (
-		<div>
+		<div style={{ backgroundColor: 'var(--espresso)', minHeight: '100vh' }}>
 			{/* Hero */}
 			<div
 				style={{
-					background:
-						'linear-gradient(135deg, var(--espresso) 0%, var(--dark-roast) 100%)',
-					padding: '4rem 2rem',
-					textAlign: 'center',
+					position: 'relative',
+					height: '60vh',
+					minHeight: '400px',
+					overflow: 'hidden',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
 				}}
 			>
-				<p
+				<img
+					src='https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=1800&q=85'
+					alt='Journal'
 					style={{
-						color: 'var(--accent-gold)',
-						letterSpacing: '4px',
-						fontSize: '0.8rem',
-						textTransform: 'uppercase',
-						marginBottom: '1rem',
+						position: 'absolute',
+						inset: 0,
+						width: '100%',
+						height: '100%',
+						objectFit: 'cover',
+						opacity: 0.3,
 					}}
-				>
-					Stories & Guides
-				</p>
-				<h1
-					style={{
-						fontFamily: 'Playfair Display, serif',
-						color: 'var(--milk-foam)',
-						fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-						marginBottom: '1rem',
-					}}
-				>
-					The EverBean{' '}
-					<span style={{ color: 'var(--accent-gold)' }}>Journal</span>
-				</h1>
-				<p
-					style={{
-						color: 'var(--cream)',
-						opacity: 0.8,
-						maxWidth: '500px',
-						margin: '0 auto',
-						lineHeight: '1.7',
-					}}
-				>
-					Brewing guides, origin stories, latte art tips, and everything coffee
-					culture.
-				</p>
-			</div>
-
-			<div
-				style={{ maxWidth: '1100px', margin: '0 auto', padding: '3rem 2rem' }}
-			>
-				{/* Category filters */}
+				/>
 				<div
 					style={{
-						display: 'flex',
-						gap: '0.8rem',
-						marginBottom: '3rem',
-						flexWrap: 'wrap',
+						position: 'absolute',
+						inset: 0,
+						background:
+							'linear-gradient(to bottom, rgba(13,7,5,0.4) 0%, rgba(13,7,5,0.8) 100%)',
+					}}
+				/>
+				<div
+					style={{
+						position: 'relative',
+						textAlign: 'center',
+						padding: '0 2rem',
 					}}
 				>
-					<button
-						onClick={() => setActiveCategory('')}
+					<p
 						style={{
-							padding: '0.5rem 1.2rem',
-							borderRadius: '50px',
-							border:
-								activeCategory === ''
-									? '2px solid var(--espresso)'
-									: '2px solid var(--latte)',
-							backgroundColor:
-								activeCategory === '' ? 'var(--espresso)' : 'transparent',
-							color: activeCategory === '' ? 'var(--cream)' : 'var(--coffee)',
-							cursor: 'pointer',
-							fontFamily: 'Lato, sans-serif',
-							fontWeight: '700',
-							fontSize: '0.85rem',
+							color: 'var(--accent-gold)',
+							letterSpacing: '6px',
+							fontSize: '0.65rem',
+							textTransform: 'uppercase',
+							fontFamily: 'Montserrat',
+							fontWeight: '500',
+							marginBottom: '1.5rem',
 						}}
 					>
-						All Posts
-					</button>
-					{categories.map((cat) => (
+						Stories & Guides
+					</p>
+					<h1
+						style={{
+							fontFamily: 'Cormorant Garamond, serif',
+							color: '#FFFFFF',
+							fontSize: 'clamp(3rem, 7vw, 6rem)',
+							fontWeight: '300',
+							lineHeight: '0.95',
+							letterSpacing: '-2px',
+						}}
+					>
+						The EverBean
+						<br />
+						<em style={{ color: 'var(--accent-gold)', fontStyle: 'italic' }}>
+							Journal
+						</em>
+					</h1>
+				</div>
+			</div>
+
+			{/* Category filters */}
+			<div
+				style={{
+					backgroundColor: 'var(--espresso)',
+					borderBottom: '1px solid rgba(201,169,110,0.15)',
+					padding: '1.5rem 4rem',
+					display: 'flex',
+					gap: '2rem',
+					flexWrap: 'wrap',
+					alignItems: 'center',
+				}}
+			>
+				{['', ...categories.map((c) => c.slug)].map((slug, i) => {
+					const label =
+						slug === '' ? 'All' : categories.find((c) => c.slug === slug)?.name;
+					return (
 						<button
-							key={cat._id}
-							onClick={() => setActiveCategory(cat.slug)}
+							key={slug}
+							onClick={() => setActiveCategory(slug)}
 							style={{
-								padding: '0.5rem 1.2rem',
-								borderRadius: '50px',
-								border:
-									activeCategory === cat.slug
-										? '2px solid var(--espresso)'
-										: '2px solid var(--latte)',
-								backgroundColor:
-									activeCategory === cat.slug
-										? 'var(--espresso)'
-										: 'transparent',
+								backgroundColor: 'transparent',
+								border: 'none',
 								color:
-									activeCategory === cat.slug
-										? 'var(--cream)'
-										: 'var(--coffee)',
+									activeCategory === slug
+										? 'var(--accent-gold)'
+										: 'rgba(242,232,220,0.4)',
 								cursor: 'pointer',
-								fontFamily: 'Lato, sans-serif',
-								fontWeight: '700',
-								fontSize: '0.85rem',
+								fontFamily: 'Montserrat, sans-serif',
+								fontWeight: '500',
+								fontSize: '0.65rem',
+								letterSpacing: '3px',
+								textTransform: 'uppercase',
+								padding: '0.5rem 0',
+								borderBottom:
+									activeCategory === slug
+										? '1px solid var(--accent-gold)'
+										: '1px solid transparent',
+								transition: 'all 0.2s',
 							}}
 						>
-							{cat.name}
+							{label}
 						</button>
-					))}
-				</div>
+					);
+				})}
+			</div>
 
-				{loading ? (
-					<p style={{ textAlign: 'center', color: 'var(--coffee)' }}>
-						Loading posts... ☕
-					</p>
-				) : (
-					<div
-						style={{
-							display: 'grid',
-							gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-							gap: '2rem',
-						}}
-					>
-						{posts.map((post) => (
-							<Link
-								key={post._id}
-								to={`/blog/${post.slug}`}
-								style={{ textDecoration: 'none' }}
-							>
-								<div
-									style={{
-										backgroundColor: 'white',
-										borderRadius: '16px',
-										overflow: 'hidden',
-										boxShadow: '0 2px 12px rgba(28,10,0,0.08)',
-										transition: 'transform 0.2s, box-shadow 0.2s',
-										height: '100%',
-									}}
-									onMouseEnter={(e) => {
-										e.currentTarget.style.transform = 'translateY(-6px)';
-										e.currentTarget.style.boxShadow =
-											'0 12px 28px rgba(28,10,0,0.15)';
-									}}
-									onMouseLeave={(e) => {
-										e.currentTarget.style.transform = 'translateY(0)';
-										e.currentTarget.style.boxShadow =
-											'0 2px 12px rgba(28,10,0,0.08)';
-									}}
+			{/* Posts grid */}
+			<div
+				style={{
+					backgroundColor: 'var(--milk-foam)',
+					padding: '5rem 4rem',
+				}}
+			>
+				<div style={{ maxWidth: '1300px', margin: '0 auto' }}>
+					{loading ? (
+						<div
+							style={{
+								textAlign: 'center',
+								padding: '6rem',
+								fontFamily: 'Cormorant Garamond',
+								color: 'var(--coffee)',
+								fontSize: '1.5rem',
+								fontWeight: '300',
+								fontStyle: 'italic',
+							}}
+						>
+							Loading stories...
+						</div>
+					) : (
+						<div
+							style={{
+								display: 'grid',
+								gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
+								gap: '2px',
+								backgroundColor: 'var(--cream)',
+							}}
+						>
+							{posts.map((post, index) => (
+								<Link
+									key={post._id}
+									to={`/blog/${post.slug}`}
+									style={{ textDecoration: 'none' }}
 								>
-									{/* Cover */}
 									<div
 										style={{
-											background:
-												'linear-gradient(135deg, var(--espresso), var(--coffee))',
-											height: '160px',
+											backgroundColor: 'var(--milk-foam)',
+											overflow: 'hidden',
+											cursor: 'pointer',
+											position: 'relative',
+											height: '100%',
 											display: 'flex',
-											alignItems: 'center',
-											justifyContent: 'center',
-											fontSize: '4rem',
+											flexDirection: 'column',
 										}}
 									>
-										{post.cover_emoji}
-									</div>
-
-									<div style={{ padding: '1.5rem' }}>
-										<span
-											style={{
-												backgroundColor: 'var(--cream)',
-												color: 'var(--coffee)',
-												padding: '0.2rem 0.7rem',
-												borderRadius: '20px',
-												fontSize: '0.7rem',
-												fontWeight: '700',
-												letterSpacing: '1px',
-												textTransform: 'uppercase',
-											}}
-										>
-											{post.category_name}
-										</span>
-
-										<h2
-											style={{
-												fontFamily: 'Playfair Display, serif',
-												color: 'var(--espresso)',
-												fontSize: '1.3rem',
-												margin: '0.8rem 0 0.5rem',
-												lineHeight: '1.3',
-											}}
-										>
-											{post.title}
-										</h2>
-
-										<p
-											style={{
-												color: 'var(--coffee)',
-												fontSize: '0.9rem',
-												lineHeight: '1.6',
-												opacity: 0.8,
-												marginBottom: '1rem',
-											}}
-										>
-											{post.excerpt}
-										</p>
-
+										{/* Cover image */}
 										<div
 											style={{
-												display: 'flex',
-												justifyContent: 'space-between',
-												alignItems: 'center',
-												paddingTop: '1rem',
-												borderTop: '1px solid var(--cream)',
+												height: '260px',
+												overflow: 'hidden',
+												position: 'relative',
+												backgroundColor: 'var(--espresso)',
 											}}
 										>
-											<span
-												style={{ color: 'var(--latte)', fontSize: '0.85rem' }}
-											>
-												✍️ {post.author_name}
-											</span>
-											<span
+											<img
+												src={getBlogImage(post.category_name, index)}
+												alt={post.title}
 												style={{
-													color: 'var(--accent-gold)',
-													fontSize: '0.85rem',
-													fontWeight: '700',
+													width: '100%',
+													height: '100%',
+													objectFit: 'cover',
+													opacity: 0.75,
+													transition: 'transform 0.6s ease, opacity 0.3s',
+												}}
+												onMouseEnter={(e) => {
+													e.target.style.transform = 'scale(1.05)';
+													e.target.style.opacity = '0.9';
+												}}
+												onMouseLeave={(e) => {
+													e.target.style.transform = 'scale(1)';
+													e.target.style.opacity = '0.75';
+												}}
+											/>
+											<div
+												style={{
+													position: 'absolute',
+													bottom: '1.5rem',
+													left: '1.5rem',
 												}}
 											>
-												Read more →
-											</span>
+												<span
+													style={{
+														backgroundColor: 'rgba(13,7,5,0.7)',
+														color: 'var(--accent-gold)',
+														padding: '0.3rem 0.8rem',
+														fontSize: '0.6rem',
+														letterSpacing: '3px',
+														textTransform: 'uppercase',
+														fontFamily: 'Montserrat',
+														fontWeight: '600',
+													}}
+												>
+													{post.category_name}
+												</span>
+											</div>
+										</div>
+
+										{/* Content */}
+										<div
+											style={{
+												padding: '2rem',
+												flex: 1,
+												display: 'flex',
+												flexDirection: 'column',
+												justifyContent: 'space-between',
+											}}
+										>
+											<h2
+												style={{
+													fontFamily: 'Cormorant Garamond, serif',
+													color: 'var(--espresso)',
+													fontSize: '1.6rem',
+													fontWeight: '400',
+													lineHeight: '1.2',
+													marginBottom: '1rem',
+													letterSpacing: '-0.5px',
+												}}
+											>
+												{post.title}
+											</h2>
+
+											<p
+												style={{
+													color: 'var(--coffee)',
+													fontSize: '0.85rem',
+													lineHeight: '1.8',
+													fontWeight: '300',
+													marginBottom: '1.5rem',
+													opacity: 0.8,
+												}}
+											>
+												{post.excerpt.substring(0, 100)}...
+											</p>
+
+											<div
+												style={{
+													display: 'flex',
+													justifyContent: 'space-between',
+													alignItems: 'center',
+													paddingTop: '1rem',
+													borderTop: '1px solid var(--cream)',
+												}}
+											>
+												<span
+													style={{
+														color: 'var(--coffee)',
+														fontSize: '0.7rem',
+														letterSpacing: '1px',
+														fontFamily: 'Montserrat',
+														opacity: 0.6,
+													}}
+												>
+													{post.author_name}
+												</span>
+												<span
+													style={{
+														color: 'var(--accent-gold)',
+														fontSize: '0.65rem',
+														letterSpacing: '2px',
+														textTransform: 'uppercase',
+														fontFamily: 'Montserrat',
+														fontWeight: '600',
+													}}
+												>
+													Read →
+												</span>
+											</div>
 										</div>
 									</div>
-								</div>
-							</Link>
-						))}
-					</div>
-				)}
+								</Link>
+							))}
+						</div>
+					)}
+				</div>
 			</div>
 		</div>
 	);
+}
+
+function getBlogImage(category, index) {
+	const images = {
+		'Brewing Methods':
+			'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80',
+		'Coffee Culture':
+			'https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=800&q=80',
+		'Latte Art':
+			'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=800&q=80',
+		'Origins & Terroir':
+			'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&q=80',
+		origins:
+			'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&q=80',
+	};
+	const fallbacks = [
+		'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80',
+		'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80',
+		'https://images.unsplash.com/photo-1504630083234-14187a9df0f5?w=800&q=80',
+		'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&q=80',
+	];
+	return images[category] || fallbacks[index % fallbacks.length];
 }
 
 export default BlogPage;
