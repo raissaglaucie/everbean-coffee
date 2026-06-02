@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { listProducts } from '../redux/slices/productSlice';
+import WeatherWidget from '../components/WeatherWidget';
 
 const categories = ['all', 'drinks', 'beans', 'food', 'merch'];
 
@@ -224,6 +225,7 @@ function HomePage() {
 					</div>
 				))}
 			</div>
+			<WeatherWidget />
 
 			{/* PRODUCTS SECTION */}
 			<div
