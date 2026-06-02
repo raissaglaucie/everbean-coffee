@@ -11,6 +11,8 @@ import PlaceOrderPage from './pages/PlaceOrderPage';
 import ProfilePage from './pages/ProfilePage';
 import OrderPage from './pages/OrderPage';
 import Footer from './components/Footer';
+import BlogPage from './pages/BlogPage';
+import BlogPostPage from './pages/BlogPostPage';
 
 function App() {
 	return (
@@ -28,6 +30,8 @@ function App() {
 					<Route path='/placeorder' element={<PlaceOrderPage />} />
 					<Route path='/profile' element={<ProfilePage />} />
 					<Route path='/order/:id' element={<OrderPage />} />
+					<Route path='/blog' element={<BlogPage />} />
+					<Route path='/blog/:slug' element={<BlogPostPage />} />
 				</Routes>
 			</main>
 			<Footer />

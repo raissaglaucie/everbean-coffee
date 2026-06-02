@@ -116,7 +116,7 @@ function Footer() {
 					</h4>
 					{[
 						{ label: 'About Us', to: '/' },
-						{ label: 'Blog', to: '/' },
+						{ label: 'Blog', to: '/blog' },
 						{ label: 'Careers', to: '/' },
 						{ label: 'Sustainability', to: '/' },
 					].map((item) => (
