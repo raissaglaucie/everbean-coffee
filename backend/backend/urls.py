@@ -10,6 +10,7 @@ urlpatterns = [
     path('api/users/', include('base.urls.user_urls')),
     path('api/orders/', include('base.urls.order_urls')),
     path('api/weather/', weather_views.getWeatherRecommendation, name='weather'),
+    path('api/blog/', include('blog.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
