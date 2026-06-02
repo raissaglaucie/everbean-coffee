@@ -10,6 +10,7 @@ import PaymentPage from './pages/PaymentPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
 import ProfilePage from './pages/ProfilePage';
 import OrderPage from './pages/OrderPage';
+import Footer from './components/Footer';
 
 function App() {
 	return (
@@ -29,6 +30,7 @@ function App() {
 					<Route path='/order/:id' element={<OrderPage />} />
 				</Routes>
 			</main>
+			<Footer />
 		</Router>
 	);
 }
