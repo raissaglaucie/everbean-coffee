@@ -45,6 +45,30 @@ function Navbar() {
 
 			<div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
 				<Link
+					to='/blog'
+					style={{
+						color: 'var(--cream)',
+						textDecoration: 'none',
+						fontSize: '0.9rem',
+						opacity: 0.85,
+					}}
+				>
+					Journal
+				</Link>
+
+				<Link
+					to='/map'
+					style={{
+						color: 'var(--cream)',
+						textDecoration: 'none',
+						fontSize: '0.9rem',
+						opacity: 0.85,
+					}}
+				>
+					Find Cafés
+				</Link>
+
+				<Link
 					to='/cart'
 					style={{
 						color: 'var(--cream)',

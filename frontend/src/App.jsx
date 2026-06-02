@@ -13,6 +13,7 @@ import OrderPage from './pages/OrderPage';
 import Footer from './components/Footer';
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
+import MapPage from './pages/MapPage';
 
 function App() {
 	return (
@@ -32,6 +33,7 @@ function App() {
 					<Route path='/order/:id' element={<OrderPage />} />
 					<Route path='/blog' element={<BlogPage />} />
 					<Route path='/blog/:slug' element={<BlogPostPage />} />
+					<Route path='/map' element={<MapPage />} />
 				</Routes>
 			</main>
 			<Footer />
