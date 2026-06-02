@@ -1,9 +1,20 @@
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../redux/slices/userSlice';
 
 function Navbar() {
+	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const { cartItems } = useSelector((state) => state.cart);
 	const { userInfo } = useSelector((state) => state.user);
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
+	const logoutHandler = () => {
+		dispatch(logout());
+		setDropdownOpen(false);
+		navigate('/');
+	};
 
 	return (
 		<nav
@@ -13,6 +24,9 @@ function Navbar() {
 				display: 'flex',
 				justifyContent: 'space-between',
 				alignItems: 'center',
+				position: 'sticky',
+				top: 0,
+				zIndex: 100,
 			}}
 		>
 			<Link
@@ -32,21 +46,147 @@ function Navbar() {
 			<div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
 				<Link
 					to='/cart'
-					style={{ color: 'var(--cream)', textDecoration: 'none' }}
+					style={{
+						color: 'var(--cream)',
+						textDecoration: 'none',
+						display: 'flex',
+						alignItems: 'center',
+						gap: '0.3rem',
+					}}
 				>
-					🛒 Cart {cartItems.length > 0 && `(${cartItems.length})`}
+					🛒 Cart
+					{cartItems.length > 0 && (
+						<span
+							style={{
+								backgroundColor: 'var(--accent-gold)',
+								color: 'var(--espresso)',
+								borderRadius: '50%',
+								width: '20px',
+								height: '20px',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								fontSize: '0.75rem',
+								fontWeight: '700',
+							}}
+						>
+							{cartItems.length}
+						</span>
+					)}
 				</Link>
+
 				{userInfo ? (
-					<Link
-						to='/profile'
-						style={{ color: 'var(--cream)', textDecoration: 'none' }}
-					>
-						👤 {userInfo.name}
-					</Link>
+					<div style={{ position: 'relative' }}>
+						<button
+							onClick={() => setDropdownOpen(!dropdownOpen)}
+							style={{
+								backgroundColor: 'transparent',
+								border: '1px solid var(--latte)',
+								color: 'var(--cream)',
+								padding: '0.4rem 1rem',
+								borderRadius: '20px',
+								cursor: 'pointer',
+								fontFamily: 'Lato, sans-serif',
+								display: 'flex',
+								alignItems: 'center',
+								gap: '0.5rem',
+							}}
+						>
+							👤 {userInfo.name} ▾
+						</button>
+
+						{dropdownOpen && (
+							<div
+								style={{
+									position: 'absolute',
+									right: 0,
+									top: '110%',
+									backgroundColor: 'white',
+									borderRadius: '12px',
+									boxShadow: '0 8px 24px rgba(28,10,0,0.15)',
+									minWidth: '160px',
+									overflow: 'hidden',
+									zIndex: 200,
+								}}
+							>
+								<Link
+									to='/profile'
+									onClick={() => setDropdownOpen(false)}
+									style={{
+										display: 'block',
+										padding: '0.8rem 1.2rem',
+										color: 'var(--espresso)',
+										textDecoration: 'none',
+										borderBottom: '1px solid var(--cream)',
+									}}
+									onMouseEnter={(e) =>
+										(e.target.style.backgroundColor = 'var(--cream)')
+									}
+									onMouseLeave={(e) =>
+										(e.target.style.backgroundColor = 'white')
+									}
+								>
+									👤 Profile
+								</Link>
+
+								{userInfo.isAdmin && (
+									<Link
+										to='/admin/products'
+										onClick={() => setDropdownOpen(false)}
+										style={{
+											display: 'block',
+											padding: '0.8rem 1.2rem',
+											color: 'var(--espresso)',
+											textDecoration: 'none',
+											borderBottom: '1px solid var(--cream)',
+										}}
+										onMouseEnter={(e) =>
+											(e.target.style.backgroundColor = 'var(--cream)')
+										}
+										onMouseLeave={(e) =>
+											(e.target.style.backgroundColor = 'white')
+										}
+									>
+										⚙️ Admin
+									</Link>
+								)}
+
+								<button
+									onClick={logoutHandler}
+									style={{
+										display: 'block',
+										width: '100%',
+										padding: '0.8rem 1.2rem',
+										color: 'var(--coffee)',
+										backgroundColor: 'transparent',
+										border: 'none',
+										textAlign: 'left',
+										cursor: 'pointer',
+										fontFamily: 'Lato, sans-serif',
+										fontSize: '1rem',
+									}}
+									onMouseEnter={(e) =>
+										(e.target.style.backgroundColor = 'var(--cream)')
+									}
+									onMouseLeave={(e) =>
+										(e.target.style.backgroundColor = 'transparent')
+									}
+								>
+									🚪 Logout
+								</button>
+							</div>
+						)}
+					</div>
 				) : (
 					<Link
 						to='/login'
-						style={{ color: 'var(--cream)', textDecoration: 'none' }}
+						style={{
+							color: 'var(--cream)',
+							textDecoration: 'none',
+							border: '1px solid var(--latte)',
+							padding: '0.4rem 1rem',
+							borderRadius: '20px',
+						}}
 					>
 						Sign In
 					</Link>
