@@ -6,57 +6,69 @@ function Footer() {
 			style={{
 				backgroundColor: 'var(--espresso)',
 				color: 'var(--cream)',
-				padding: '4rem 2rem 2rem',
-				marginTop: '4rem',
 			}}
 		>
+			{/* Top section */}
 			<div
 				style={{
-					maxWidth: '1200px',
-					margin: '0 auto',
+					padding: '6rem 4rem 4rem',
 					display: 'grid',
-					gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-					gap: '3rem',
-					marginBottom: '3rem',
+					gridTemplateColumns: '2fr 1fr 1fr 1fr',
+					gap: '4rem',
+					maxWidth: '1400px',
+					margin: '0 auto',
+					borderBottom: '1px solid rgba(201,169,110,0.15)',
 				}}
 			>
 				{/* Brand */}
 				<div>
 					<h3
 						style={{
-							fontFamily: 'Playfair Display, serif',
+							fontFamily: 'Cormorant Garamond, serif',
 							color: 'var(--accent-gold)',
-							fontSize: '1.5rem',
-							marginBottom: '1rem',
+							fontSize: '2rem',
+							fontWeight: '300',
+							letterSpacing: '6px',
+							textTransform: 'uppercase',
+							marginBottom: '1.5rem',
 						}}
 					>
-						☕ EVERBEAN
+						Everbean
 					</h3>
 					<p
 						style={{
-							color: 'var(--cream)',
-							opacity: 0.7,
-							lineHeight: '1.7',
-							fontSize: '0.9rem',
+							color: 'rgba(242,232,220,0.5)',
+							lineHeight: '2',
+							fontSize: '0.85rem',
+							fontWeight: '300',
+							maxWidth: '280px',
+							marginBottom: '2rem',
 						}}
 					>
 						Crafted for moments that matter. Single-origin beans, handcrafted
-						drinks, delivered with love.
+						drinks, delivered with love from Seattle, Washington.
 					</p>
-					<div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
-						{['📘', '📸', '🐦', '▶️'].map((icon, i) => (
+					<div style={{ display: 'flex', gap: '1.5rem' }}>
+						{['FB', 'IG', 'TW', 'YT'].map((s) => (
 							<span
-								key={i}
+								key={s}
 								style={{
-									fontSize: '1.2rem',
+									color: 'rgba(242,232,220,0.3)',
+									fontSize: '0.65rem',
+									letterSpacing: '1px',
 									cursor: 'pointer',
-									opacity: 0.7,
-									transition: 'opacity 0.2s',
+									fontFamily: 'Montserrat',
+									fontWeight: '600',
+									transition: 'color 0.2s',
 								}}
-								onMouseEnter={(e) => (e.target.style.opacity = '1')}
-								onMouseLeave={(e) => (e.target.style.opacity = '0.7')}
+								onMouseEnter={(e) =>
+									(e.target.style.color = 'var(--accent-gold)')
+								}
+								onMouseLeave={(e) =>
+									(e.target.style.color = 'rgba(242,232,220,0.3)')
+								}
 							>
-								{icon}
+								{s}
 							</span>
 						))}
 					</div>
@@ -67,34 +79,39 @@ function Footer() {
 					<h4
 						style={{
 							color: 'var(--accent-gold)',
-							letterSpacing: '2px',
-							fontSize: '0.8rem',
+							letterSpacing: '3px',
+							fontSize: '0.6rem',
 							textTransform: 'uppercase',
-							marginBottom: '1.2rem',
+							marginBottom: '2rem',
+							fontFamily: 'Montserrat',
+							fontWeight: '600',
 						}}
 					>
 						Menu
 					</h4>
 					{[
-						{ label: '☕ Drinks', to: '/' },
-						{ label: '🫘 Coffee Beans', to: '/' },
-						{ label: '🥐 Food', to: '/' },
-						{ label: '🛍️ Merch', to: '/' },
+						{ label: 'Drinks', to: '/' },
+						{ label: 'Coffee Beans', to: '/' },
+						{ label: 'Food', to: '/' },
+						{ label: 'Merch', to: '/' },
 					].map((item) => (
 						<Link
 							key={item.label}
 							to={item.to}
 							style={{
 								display: 'block',
-								color: 'var(--cream)',
+								color: 'rgba(242,232,220,0.45)',
 								textDecoration: 'none',
-								opacity: 0.7,
-								marginBottom: '0.6rem',
-								fontSize: '0.9rem',
-								transition: 'opacity 0.2s',
+								marginBottom: '1rem',
+								fontSize: '0.85rem',
+								fontWeight: '300',
+								letterSpacing: '0.5px',
+								transition: 'color 0.2s',
 							}}
-							onMouseEnter={(e) => (e.target.style.opacity = '1')}
-							onMouseLeave={(e) => (e.target.style.opacity = '0.7')}
+							onMouseEnter={(e) => (e.target.style.color = 'var(--cream)')}
+							onMouseLeave={(e) =>
+								(e.target.style.color = 'rgba(242,232,220,0.45)')
+							}
 						>
 							{item.label}
 						</Link>
@@ -106,18 +123,20 @@ function Footer() {
 					<h4
 						style={{
 							color: 'var(--accent-gold)',
-							letterSpacing: '2px',
-							fontSize: '0.8rem',
+							letterSpacing: '3px',
+							fontSize: '0.6rem',
 							textTransform: 'uppercase',
-							marginBottom: '1.2rem',
+							marginBottom: '2rem',
+							fontFamily: 'Montserrat',
+							fontWeight: '600',
 						}}
 					>
 						Company
 					</h4>
 					{[
 						{ label: 'About Us', to: '/' },
-						{ label: 'Blog', to: '/blog' },
-						{ label: 'Careers', to: '/' },
+						{ label: 'Journal', to: '/blog' },
+						{ label: 'Find Cafés', to: '/map' },
 						{ label: 'Sustainability', to: '/' },
 					].map((item) => (
 						<Link
@@ -125,95 +144,123 @@ function Footer() {
 							to={item.to}
 							style={{
 								display: 'block',
-								color: 'var(--cream)',
+								color: 'rgba(242,232,220,0.45)',
 								textDecoration: 'none',
-								opacity: 0.7,
-								marginBottom: '0.6rem',
-								fontSize: '0.9rem',
-								transition: 'opacity 0.2s',
+								marginBottom: '1rem',
+								fontSize: '0.85rem',
+								fontWeight: '300',
+								letterSpacing: '0.5px',
+								transition: 'color 0.2s',
 							}}
-							onMouseEnter={(e) => (e.target.style.opacity = '1')}
-							onMouseLeave={(e) => (e.target.style.opacity = '0.7')}
+							onMouseEnter={(e) => (e.target.style.color = 'var(--cream)')}
+							onMouseLeave={(e) =>
+								(e.target.style.color = 'rgba(242,232,220,0.45)')
+							}
 						>
 							{item.label}
 						</Link>
 					))}
 				</div>
 
-				{/* Contact */}
+				{/* Visit */}
 				<div>
 					<h4
 						style={{
 							color: 'var(--accent-gold)',
-							letterSpacing: '2px',
-							fontSize: '0.8rem',
+							letterSpacing: '3px',
+							fontSize: '0.6rem',
 							textTransform: 'uppercase',
-							marginBottom: '1.2rem',
+							marginBottom: '2rem',
+							fontFamily: 'Montserrat',
+							fontWeight: '600',
 						}}
 					>
 						Visit Us
 					</h4>
 					<p
 						style={{
-							color: 'var(--cream)',
-							opacity: 0.7,
-							fontSize: '0.9rem',
-							marginBottom: '0.5rem',
+							color: 'rgba(242,232,220,0.45)',
+							fontSize: '0.85rem',
+							fontWeight: '300',
+							lineHeight: '2',
+							marginBottom: '1.5rem',
 						}}
 					>
-						📍 123 Coffee Lane
+						123 Coffee Lane
 						<br />
 						Seattle, WA 98101
 					</p>
 					<p
 						style={{
-							color: 'var(--cream)',
-							opacity: 0.7,
-							fontSize: '0.9rem',
-							marginBottom: '0.5rem',
+							color: 'rgba(242,232,220,0.45)',
+							fontSize: '0.85rem',
+							fontWeight: '300',
+							lineHeight: '2',
+							marginBottom: '1.5rem',
 						}}
 					>
-						🕐 Mon–Fri: 7am – 8pm
+						Mon–Fri: 7am – 8pm
 						<br />
 						Sat–Sun: 8am – 6pm
 					</p>
-					<p
-						style={{ color: 'var(--cream)', opacity: 0.7, fontSize: '0.9rem' }}
+					<a
+						href='mailto:hello@everbean.coffee'
+						style={{
+							color: 'var(--accent-gold)',
+							fontSize: '0.8rem',
+							textDecoration: 'none',
+							fontFamily: 'Montserrat',
+							letterSpacing: '1px',
+						}}
 					>
-						📧 hello@everbean.coffee
-					</p>
+						hello@everbean.coffee
+					</a>
 				</div>
 			</div>
 
 			{/* Bottom bar */}
 			<div
 				style={{
-					borderTop: '1px solid rgba(255,255,255,0.1)',
-					paddingTop: '2rem',
+					padding: '2rem 4rem',
 					display: 'flex',
 					justifyContent: 'space-between',
 					alignItems: 'center',
+					maxWidth: '1400px',
+					margin: '0 auto',
 					flexWrap: 'wrap',
 					gap: '1rem',
-					maxWidth: '1200px',
-					margin: '0 auto',
 				}}
 			>
-				<p style={{ color: 'var(--cream)', opacity: 0.5, fontSize: '0.85rem' }}>
-					© 2026 EverBean Coffee. All rights reserved.
+				<p
+					style={{
+						color: 'rgba(242,232,220,0.25)',
+						fontSize: '0.7rem',
+						letterSpacing: '1px',
+						fontFamily: 'Montserrat',
+					}}
+				>
+					© 2026 Everbean Coffee. All rights reserved.
 				</p>
-				<div style={{ display: 'flex', gap: '1.5rem' }}>
+				<div style={{ display: 'flex', gap: '2rem' }}>
 					{['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map(
 						(item) => (
 							<Link
 								key={item}
 								to='/'
 								style={{
-									color: 'var(--cream)',
-									opacity: 0.5,
+									color: 'rgba(242,232,220,0.25)',
 									textDecoration: 'none',
-									fontSize: '0.8rem',
+									fontSize: '0.65rem',
+									letterSpacing: '1px',
+									fontFamily: 'Montserrat',
+									transition: 'color 0.2s',
 								}}
+								onMouseEnter={(e) =>
+									(e.target.style.color = 'rgba(242,232,220,0.6)')
+								}
+								onMouseLeave={(e) =>
+									(e.target.style.color = 'rgba(242,232,220,0.25)')
+								}
 							>
 								{item}
 							</Link>
