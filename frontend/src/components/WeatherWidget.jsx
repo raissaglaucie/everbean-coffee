@@ -23,7 +23,6 @@ function WeatherWidget() {
 					}
 				},
 				() => {
-					// If user denies location, use Seattle as default
 					axios
 						.get('/api/weather/')
 						.then(({ data }) => setWeather(data))
@@ -34,67 +33,119 @@ function WeatherWidget() {
 		}
 	}, []);
 
+	if (error || !weather) return null;
+
 	if (loading)
 		return (
 			<div
 				style={{
 					backgroundColor: 'var(--dark-roast)',
-					padding: '1.5rem 2rem',
+					padding: '2rem',
 					textAlign: 'center',
-					color: 'var(--cream)',
-					fontSize: '0.9rem',
-					opacity: 0.8,
+					borderTop: '1px solid rgba(201,169,110,0.1)',
+					borderBottom: '1px solid rgba(201,169,110,0.1)',
 				}}
 			>
-				☁️ Checking the weather for your perfect cup...
+				<p
+					style={{
+						color: 'rgba(242,232,220,0.4)',
+						fontSize: '0.65rem',
+						letterSpacing: '3px',
+						textTransform: 'uppercase',
+						fontFamily: 'Montserrat',
+					}}
+				>
+					Reading the weather...
+				</p>
 			</div>
 		);
-
-	if (error || !weather) return null;
 
 	return (
 		<div
 			style={{
-				background: `linear-gradient(135deg, ${weather.bg} 0%, var(--dark-roast) 100%)`,
-				padding: '1.5rem 2rem',
+				backgroundColor: 'var(--dark-roast)',
+				borderTop: '1px solid rgba(201,169,110,0.1)',
+				borderBottom: '1px solid rgba(201,169,110,0.1)',
+				padding: '3rem 4rem',
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
-				gap: '2rem',
+				gap: '5rem',
 				flexWrap: 'wrap',
 			}}
 		>
-			{/* Weather info */}
-			<div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-				<img
-					src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`}
-					alt={weather.description}
-					style={{ width: '50px', height: '50px' }}
-				/>
+			{/* Label */}
+			<div style={{ textAlign: 'center' }}>
+				<p
+					style={{
+						color: 'rgba(242,232,220,0.3)',
+						fontSize: '0.55rem',
+						letterSpacing: '4px',
+						textTransform: 'uppercase',
+						fontFamily: 'Montserrat',
+						fontWeight: '600',
+						marginBottom: '0.3rem',
+					}}
+				>
+					Today's Weather
+				</p>
+				<p
+					style={{
+						color: 'var(--accent-gold)',
+						fontSize: '0.7rem',
+						letterSpacing: '3px',
+						textTransform: 'uppercase',
+						fontFamily: 'Montserrat',
+						fontWeight: '500',
+					}}
+				>
+					{weather.city}
+				</p>
+			</div>
+
+			{/* Weather */}
+			<div
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					gap: '1.5rem',
+				}}
+			>
+				<span style={{ fontSize: '3rem' }}>
+					{weather.temp_c < 5
+						? '🥶'
+						: weather.temp_c < 12
+							? '🌥️'
+							: weather.temp_c < 18
+								? '⛅'
+								: weather.temp_c < 24
+									? '🌤️'
+									: '☀️'}
+				</span>
 				<div>
 					<p
 						style={{
-							color: 'var(--accent-gold)',
-							fontSize: '0.75rem',
-							letterSpacing: '2px',
-							textTransform: 'uppercase',
+							fontFamily: 'Cormorant Garamond, serif',
+							color: '#FFFFFF',
+							fontSize: '3rem',
+							fontWeight: '300',
+							lineHeight: '1',
+							marginBottom: '0.2rem',
 						}}
 					>
-						{weather.city}
+						{weather.temp_c}°
 					</p>
 					<p
 						style={{
-							color: 'var(--cream)',
-							fontSize: '1.3rem',
-							fontWeight: '700',
+							color: 'rgba(242,232,220,0.4)',
+							fontSize: '0.7rem',
+							letterSpacing: '2px',
+							textTransform: 'capitalize',
+							fontFamily: 'Montserrat',
+							fontWeight: '300',
 						}}
 					>
-						{weather.temp_c}°C
-						<span
-							style={{ fontSize: '0.9rem', opacity: 0.7, marginLeft: '0.5rem' }}
-						>
-							{weather.description}
-						</span>
+						{weather.description}
 					</p>
 				</div>
 			</div>
@@ -103,47 +154,84 @@ function WeatherWidget() {
 			<div
 				style={{
 					width: '1px',
-					height: '40px',
-					backgroundColor: 'rgba(255,255,255,0.2)',
+					height: '60px',
+					backgroundColor: 'rgba(201,169,110,0.2)',
 				}}
 			/>
 
 			{/* Recommendation */}
-			<div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-				<span style={{ fontSize: '2.5rem' }}>{weather.emoji}</span>
-				<div>
-					<p
-						style={{
-							color: 'var(--accent-gold)',
-							fontSize: '0.75rem',
-							letterSpacing: '2px',
-							textTransform: 'uppercase',
-							marginBottom: '0.2rem',
-						}}
-					>
-						Today's Pick
-					</p>
-					<p
-						style={{
-							color: 'var(--cream)',
-							fontFamily: 'Playfair Display, serif',
-							fontSize: '1.2rem',
-							fontWeight: '700',
-						}}
-					>
-						{weather.recommendation}
-					</p>
-					<p
-						style={{
-							color: 'var(--cream)',
-							fontSize: '0.8rem',
-							opacity: 0.7,
-						}}
-					>
-						{weather.reason}
-					</p>
-				</div>
+			<div style={{ textAlign: 'center' }}>
+				<p
+					style={{
+						color: 'rgba(242,232,220,0.3)',
+						fontSize: '0.55rem',
+						letterSpacing: '4px',
+						textTransform: 'uppercase',
+						fontFamily: 'Montserrat',
+						fontWeight: '600',
+						marginBottom: '0.5rem',
+					}}
+				>
+					Today's Pick
+				</p>
+				<p
+					style={{
+						fontFamily: 'Cormorant Garamond, serif',
+						color: 'var(--accent-gold)',
+						fontSize: '1.8rem',
+						fontWeight: '400',
+						fontStyle: 'italic',
+						marginBottom: '0.3rem',
+						letterSpacing: '-0.5px',
+					}}
+				>
+					{weather.recommendation}
+				</p>
+				<p
+					style={{
+						color: 'rgba(242,232,220,0.4)',
+						fontSize: '0.75rem',
+						fontFamily: 'Montserrat',
+						fontWeight: '300',
+						letterSpacing: '0.5px',
+					}}
+				>
+					{weather.reason}
+				</p>
 			</div>
+
+			{/* CTA */}
+			<button
+				onClick={() =>
+					document
+						.getElementById('products')
+						.scrollIntoView({ behavior: 'smooth' })
+				}
+				style={{
+					backgroundColor: 'transparent',
+					border: '1px solid rgba(201,169,110,0.4)',
+					color: 'var(--accent-gold)',
+					padding: '0.8rem 2rem',
+					cursor: 'pointer',
+					fontFamily: 'Montserrat, sans-serif',
+					fontSize: '0.6rem',
+					letterSpacing: '3px',
+					textTransform: 'uppercase',
+					fontWeight: '600',
+					transition: 'all 0.3s',
+					whiteSpace: 'nowrap',
+				}}
+				onMouseEnter={(e) => {
+					e.target.style.backgroundColor = 'var(--accent-gold)';
+					e.target.style.color = 'var(--espresso)';
+				}}
+				onMouseLeave={(e) => {
+					e.target.style.backgroundColor = 'transparent';
+					e.target.style.color = 'var(--accent-gold)';
+				}}
+			>
+				Order Now
+			</button>
 		</div>
 	);
 }
