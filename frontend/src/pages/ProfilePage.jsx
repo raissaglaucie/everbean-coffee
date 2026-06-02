@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 function ProfilePage() {
@@ -11,6 +11,7 @@ function ProfilePage() {
 	const [message, setMessage] = useState('');
 	const [success, setSuccess] = useState(false);
 	const [orders, setOrders] = useState([]);
+	const [focused, setFocused] = useState('');
 
 	const { userInfo } = useSelector((state) => state.user);
 	const navigate = useNavigate();
@@ -18,11 +19,11 @@ function ProfilePage() {
 	useEffect(() => {
 		if (!userInfo) {
 			navigate('/login');
-		} else {
-			setName(userInfo.name);
-			setEmail(userInfo.email);
-			fetchOrders();
+			return;
 		}
+		setName(userInfo.name);
+		setEmail(userInfo.email);
+		fetchOrders();
 	}, [userInfo, navigate]);
 
 	const fetchOrders = async () => {
@@ -52,241 +53,309 @@ function ProfilePage() {
 			setMessage('');
 			setPassword('');
 			setConfirmPassword('');
-		} catch (err) {
-			setMessage('Update failed');
+		} catch {
+			setMessage('Update failed. Please try again.');
 		}
 	};
 
-	const inputStyle = {
-		width: '100%',
-		padding: '0.7rem',
-		borderRadius: '8px',
-		border: '1px solid var(--latte)',
-		fontSize: '1rem',
-		fontFamily: 'Lato, sans-serif',
-		marginBottom: '1rem',
-		color: 'var(--espresso)',
-	};
+	const fields = [
+		{
+			id: 'name',
+			label: 'Full Name',
+			type: 'text',
+			value: name,
+			setter: setName,
+			placeholder: 'Your name',
+		},
+		{
+			id: 'email',
+			label: 'Email Address',
+			type: 'email',
+			value: email,
+			setter: setEmail,
+			placeholder: 'you@example.com',
+		},
+		{
+			id: 'password',
+			label: 'New Password',
+			type: 'password',
+			value: password,
+			setter: setPassword,
+			placeholder: 'Leave blank to keep current',
+		},
+		{
+			id: 'confirmPassword',
+			label: 'Confirm Password',
+			type: 'password',
+			value: confirmPassword,
+			setter: setConfirmPassword,
+			placeholder: '••••••••',
+		},
+	];
 
-	const labelStyle = {
-		display: 'block',
-		color: 'var(--coffee)',
-		marginBottom: '0.3rem',
-		fontWeight: '700',
-		fontSize: '0.9rem',
-	};
+	const initials = name
+		? name
+				.split(' ')
+				.map((n) => n[0])
+				.join('')
+				.toUpperCase()
+				.slice(0, 2)
+		: '?';
 
 	return (
-		<div style={{ padding: '2rem', maxWidth: '1000px', margin: '0 auto' }}>
-			<h1
-				style={{
-					fontFamily: 'Playfair Display, serif',
-					color: 'var(--espresso)',
-					marginBottom: '2rem',
-				}}
-			>
-				👤 My Profile
-			</h1>
+		<>
+			<style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
 
-			<div
-				style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '2rem' }}
-			>
-				{/* Update Profile */}
-				<div
-					style={{
-						backgroundColor: 'white',
-						borderRadius: '16px',
-						padding: '1.5rem',
-						boxShadow: '0 2px 12px rgba(28,10,0,0.08)',
-						height: 'fit-content',
-					}}
-				>
-					<h2
-						style={{
-							fontFamily: 'Playfair Display, serif',
-							color: 'var(--espresso)',
-							marginBottom: '1.5rem',
-							fontSize: '1.3rem',
-						}}
-					>
-						Update Info
-					</h2>
+        .profile-page { min-height: calc(100vh - 80px); background: var(--milk-foam, #FAF6F1); }
+        .profile-hero {
+          background: var(--dark-roast, #1A0E0A); padding: 3rem 2rem;
+          position: relative; overflow: hidden;
+        }
+        .profile-hero::before {
+          content: ''; position: absolute; right: -100px; top: -100px;
+          width: 400px; height: 400px; border-radius: 50%;
+          background: rgba(201,169,110,0.06);
+        }
+        .profile-hero-inner {
+          max-width: 1100px; margin: 0 auto;
+          display: flex; align-items: center; gap: 2rem; position: relative; z-index: 1;
+        }
+        .profile-avatar {
+          width: 72px; height: 72px; border-radius: 50%;
+          background: var(--coffee, #4A2515); border: 2px solid var(--accent-gold, #C9A96E);
+          display: flex; align-items: center; justify-content: center;
+          font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600;
+          color: var(--accent-gold, #C9A96E); flex-shrink: 0;
+        }
+        .profile-hero-greeting {
+          font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 600;
+          letter-spacing: 0.25em; text-transform: uppercase;
+          color: var(--accent-gold, #C9A96E); margin-bottom: 0.3rem;
+        }
+        .profile-hero-name {
+          font-family: 'Cormorant Garamond', serif; font-size: 2.2rem;
+          font-weight: 300; color: var(--cream, #F2E8DC); line-height: 1.1;
+        }
+        .profile-hero-email {
+          font-family: 'Montserrat', sans-serif; font-size: 0.78rem;
+          color: rgba(196,149,106,0.7); margin-top: 0.2rem;
+        }
+        .profile-grid {
+          max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem;
+          display: grid; grid-template-columns: 360px 1fr;
+          gap: 2rem; align-items: start;
+        }
+        .profile-card {
+          background: white; padding: 2rem;
+          border: 1px solid rgba(196,149,106,0.15); position: sticky; top: 100px;
+        }
+        .profile-card-title {
+          font-family: 'Cormorant Garamond', serif; font-size: 1.6rem;
+          font-weight: 400; color: var(--espresso, #0D0705); margin-bottom: 0.4rem;
+        }
+        .profile-card-divider {
+          width: 32px; height: 1px; background: var(--accent-gold, #C9A96E); margin-bottom: 1.8rem;
+        }
+        .profile-field { position: relative; margin-bottom: 1.6rem; }
+        .profile-field label {
+          display: block; font-family: 'Montserrat', sans-serif; font-size: 0.62rem;
+          font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+          color: var(--coffee, #4A2515); margin-bottom: 0.45rem; transition: color 0.2s;
+        }
+        .profile-field.focused label { color: var(--accent-gold, #C9A96E); }
+        .profile-field input {
+          width: 100%; background: transparent; border: none;
+          border-bottom: 1px solid var(--latte, #C4956A); padding: 0.55rem 0;
+          font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
+          color: var(--espresso, #0D0705); outline: none; box-sizing: border-box;
+        }
+        .profile-field input::placeholder {
+          color: var(--latte, #C4956A); font-style: italic; opacity: 0.5;
+        }
+        .profile-field-line {
+          position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+          background: var(--accent-gold, #C9A96E); transition: width 0.3s ease;
+        }
+        .profile-field.focused .profile-field-line { width: 100%; }
+        .profile-message-error {
+          font-family: 'Montserrat', sans-serif; font-size: 0.72rem; color: #c0392b;
+          margin-bottom: 1rem; padding: 0.7rem 1rem;
+          border-left: 3px solid #c0392b; background: rgba(192,57,43,0.05);
+        }
+        .profile-message-success {
+          font-family: 'Montserrat', sans-serif; font-size: 0.72rem; color: #27ae60;
+          margin-bottom: 1rem; padding: 0.7rem 1rem;
+          border-left: 3px solid var(--accent-gold, #C9A96E); background: rgba(201,169,110,0.08);
+        }
+        .profile-submit {
+          width: 100%; padding: 0.9rem; background: var(--espresso, #0D0705);
+          color: var(--cream, #F2E8DC); border: none;
+          font-family: 'Montserrat', sans-serif; font-size: 0.68rem; font-weight: 600;
+          letter-spacing: 0.25em; text-transform: uppercase; cursor: pointer; transition: background 0.25s;
+        }
+        .profile-submit:hover { background: var(--coffee, #4A2515); }
+        .profile-orders-card {
+          background: white; padding: 2rem; border: 1px solid rgba(196,149,106,0.15);
+        }
+        .profile-orders-title {
+          font-family: 'Cormorant Garamond', serif; font-size: 1.6rem;
+          font-weight: 400; color: var(--espresso, #0D0705); margin-bottom: 0.4rem;
+        }
+        .profile-orders-divider {
+          width: 32px; height: 1px; background: var(--accent-gold, #C9A96E); margin-bottom: 1.8rem;
+        }
+        .profile-orders-empty {
+          font-family: 'Cormorant Garamond', serif; font-size: 1.15rem;
+          font-style: italic; color: var(--latte, #C4956A); padding: 2rem 0;
+        }
+        .profile-orders-table { width: 100%; border-collapse: collapse; }
+        .profile-orders-table thead tr { border-bottom: 1px solid var(--cream, #F2E8DC); }
+        .profile-orders-table th {
+          font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 600;
+          letter-spacing: 0.18em; text-transform: uppercase; color: var(--latte, #C4956A);
+          padding: 0 0.8rem 0.8rem; text-align: left;
+        }
+        .profile-orders-table th:first-child { padding-left: 0; }
+        .profile-orders-table tbody tr { border-bottom: 1px solid var(--cream, #F2E8DC); }
+        .profile-orders-table tbody tr:hover { background: rgba(250,246,241,0.8); }
+        .profile-orders-table td {
+          padding: 1rem 0.8rem; font-family: 'Montserrat', sans-serif;
+          font-size: 0.8rem; color: var(--coffee, #4A2515);
+        }
+        .profile-orders-table td:first-child { padding-left: 0; }
+        .profile-orders-id {
+          font-family: 'Cormorant Garamond', serif; font-size: 0.95rem;
+          color: var(--espresso, #0D0705); text-decoration: none;
+        }
+        .profile-orders-id:hover { color: var(--accent-gold, #C9A96E); text-decoration: underline; }
+        .profile-orders-total {
+          font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;
+          font-weight: 600; color: var(--espresso, #0D0705);
+        }
+        .profile-status-badge {
+          display: inline-flex; align-items: center; gap: 0.35rem;
+          font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 600;
+          letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3rem 0.65rem;
+        }
+        .profile-status-badge.paid {
+          color: #2d7a4f; background: rgba(45,122,79,0.08); border: 1px solid rgba(45,122,79,0.2);
+        }
+        .profile-status-badge.pending {
+          color: var(--latte, #C4956A); background: rgba(196,149,106,0.08);
+          border: 1px solid rgba(196,149,106,0.25);
+        }
+        @media (max-width: 900px) {
+          .profile-grid { grid-template-columns: 1fr; }
+          .profile-card { position: static; }
+        }
+      `}</style>
 
-					{message && (
-						<p
-							style={{ color: 'red', marginBottom: '1rem', fontSize: '0.9rem' }}
-						>
-							{message}
-						</p>
-					)}
-					{success && (
-						<p
-							style={{
-								color: 'green',
-								marginBottom: '1rem',
-								fontSize: '0.9rem',
-							}}
-						>
-							✅ Profile updated!
-						</p>
-					)}
-
-					<form onSubmit={submitHandler}>
-						<label style={labelStyle}>Name</label>
-						<input
-							type='text'
-							value={name}
-							onChange={(e) => setName(e.target.value)}
-							style={inputStyle}
-						/>
-
-						<label style={labelStyle}>Email</label>
-						<input
-							type='email'
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-							style={inputStyle}
-						/>
-
-						<label style={labelStyle}>New Password</label>
-						<input
-							type='password'
-							placeholder='Leave blank to keep current'
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-							style={inputStyle}
-						/>
-
-						<label style={labelStyle}>Confirm Password</label>
-						<input
-							type='password'
-							placeholder='••••••••'
-							value={confirmPassword}
-							onChange={(e) => setConfirmPassword(e.target.value)}
-							style={inputStyle}
-						/>
-
-						<button
-							type='submit'
-							style={{
-								width: '100%',
-								padding: '0.8rem',
-								backgroundColor: 'var(--espresso)',
-								color: 'var(--cream)',
-								border: 'none',
-								borderRadius: '8px',
-								fontSize: '1rem',
-								cursor: 'pointer',
-								fontFamily: 'Lato, sans-serif',
-							}}
-						>
-							Update Profile
-						</button>
-					</form>
+			<div className='profile-page'>
+				<div className='profile-hero'>
+					<div className='profile-hero-inner'>
+						<div className='profile-avatar'>{initials}</div>
+						<div>
+							<p className='profile-hero-greeting'>Member Account</p>
+							<h1 className='profile-hero-name'>{name || 'Welcome back'}</h1>
+							<p className='profile-hero-email'>{email}</p>
+						</div>
+					</div>
 				</div>
 
-				{/* My Orders */}
-				<div
-					style={{
-						backgroundColor: 'white',
-						borderRadius: '16px',
-						padding: '1.5rem',
-						boxShadow: '0 2px 12px rgba(28,10,0,0.08)',
-					}}
-				>
-					<h2
-						style={{
-							fontFamily: 'Playfair Display, serif',
-							color: 'var(--espresso)',
-							marginBottom: '1.5rem',
-							fontSize: '1.3rem',
-						}}
-					>
-						My Orders ☕
-					</h2>
+				<div className='profile-grid'>
+					<div className='profile-card'>
+						<h2 className='profile-card-title'>Update Profile</h2>
+						<div className='profile-card-divider' />
+						{message && <div className='profile-message-error'>{message}</div>}
+						{success && (
+							<div className='profile-message-success'>
+								✦ Profile updated successfully
+							</div>
+						)}
+						<form onSubmit={submitHandler}>
+							{fields.map((f) => (
+								<div
+									key={f.id}
+									className={`profile-field${focused === f.id ? ' focused' : ''}`}
+								>
+									<label htmlFor={f.id}>{f.label}</label>
+									<input
+										id={f.id}
+										type={f.type}
+										value={f.value}
+										placeholder={f.placeholder}
+										onFocus={() => setFocused(f.id)}
+										onBlur={() => setFocused('')}
+										onChange={(e) => f.setter(e.target.value)}
+									/>
+									<div className='profile-field-line' />
+								</div>
+							))}
+							<button type='submit' className='profile-submit'>
+								Save Changes
+							</button>
+						</form>
+					</div>
 
-					{orders.length === 0 ? (
-						<p style={{ color: 'var(--coffee)' }}>
-							No orders yet — go grab a coffee! ☕
-						</p>
-					) : (
-						<table style={{ width: '100%', borderCollapse: 'collapse' }}>
-							<thead>
-								<tr style={{ borderBottom: '2px solid var(--cream)' }}>
-									{['ID', 'Date', 'Total', 'Paid', 'Delivered'].map((h) => (
-										<th
-											key={h}
-											style={{
-												padding: '0.8rem',
-												textAlign: 'left',
-												color: 'var(--coffee)',
-												fontSize: '0.85rem',
-												fontFamily: 'Lato, sans-serif',
-											}}
-										>
-											{h}
-										</th>
-									))}
-								</tr>
-							</thead>
-							<tbody>
-								{orders.map((order) => (
-									<tr
-										key={order._id}
-										style={{ borderBottom: '1px solid var(--cream)' }}
-									>
-										<td
-											style={{
-												padding: '0.8rem',
-												color: 'var(--espresso)',
-												fontSize: '0.9rem',
-											}}
-										>
-											#{order._id}
-										</td>
-										<td
-											style={{
-												padding: '0.8rem',
-												color: 'var(--coffee)',
-												fontSize: '0.9rem',
-											}}
-										>
-											{order.createdAt?.substring(0, 10)}
-										</td>
-										<td
-											style={{
-												padding: '0.8rem',
-												color: 'var(--espresso)',
-												fontWeight: '700',
-												fontSize: '0.9rem',
-											}}
-										>
-											${order.totalPrice}
-										</td>
-										<td style={{ padding: '0.8rem', fontSize: '0.9rem' }}>
-											{order.isPaid ? (
-												<span style={{ color: 'green' }}>
-													✅ {order.paidAt?.substring(0, 10)}
-												</span>
-											) : (
-												<span style={{ color: 'orange' }}>⏳ Pending</span>
-											)}
-										</td>
-										<td style={{ padding: '0.8rem', fontSize: '0.9rem' }}>
-											{order.isDelivered ? (
-												<span style={{ color: 'green' }}>✅</span>
-											) : (
-												<span style={{ color: 'orange' }}>⏳ Pending</span>
-											)}
-										</td>
+					<div className='profile-orders-card'>
+						<h2 className='profile-orders-title'>Order History</h2>
+						<div className='profile-orders-divider' />
+						{orders.length === 0 ? (
+							<p className='profile-orders-empty'>
+								No orders yet — time to explore our coffees.
+							</p>
+						) : (
+							<table className='profile-orders-table'>
+								<thead>
+									<tr>
+										<th>Order ID</th>
+										<th>Date</th>
+										<th>Total</th>
+										<th>Payment</th>
+										<th>Delivery</th>
 									</tr>
-								))}
-							</tbody>
-						</table>
-					)}
+								</thead>
+								<tbody>
+									{orders.map((order) => (
+										<tr key={order._id}>
+											<td>
+												<Link
+													to={`/order/${order._id}`}
+													className='profile-orders-id'
+												>
+													#{String(order._id).slice(-8).toUpperCase()}
+												</Link>
+											</td>
+											<td>{order.createdAt?.substring(0, 10)}</td>
+											<td>
+												<span className='profile-orders-total'>
+													${order.totalPrice}
+												</span>
+											</td>
+											<td>
+												<span
+													className={`profile-status-badge ${order.isPaid ? 'paid' : 'pending'}`}
+												>
+													{order.isPaid ? '✦ Paid' : 'Pending'}
+												</span>
+											</td>
+											<td>
+												<span
+													className={`profile-status-badge ${order.isDelivered ? 'paid' : 'pending'}`}
+												>
+													{order.isDelivered ? '✦ Delivered' : 'Processing'}
+												</span>
+											</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+						)}
+					</div>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 }
 
