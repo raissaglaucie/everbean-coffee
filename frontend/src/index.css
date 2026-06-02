@@ -1,15 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 
 :root {
-  --espresso:    #1C0A00;
-  --dark-roast:  #3B1A08;
-  --coffee:      #6B3A2A;
+  --espresso:    #0D0705;
+  --dark-roast:  #1A0E0A;
+  --coffee:      #4A2515;
   --latte:       #C4956A;
-  --cream:       #F5E6D3;
-  --milk-foam:   #FFF8F0;
-  --accent-gold: #D4A853;
-  --text-dark:   #1C0A00;
-  --text-light:  #FFF8F0;
+  --cream:       #F2E8DC;
+  --milk-foam:   #FAF6F1;
+  --accent-gold: #C9A96E;
+  --text-dark:   #0D0705;
+  --text-light:  #FAF6F1;
+  --warm-white:  #FFFFFF;
 }
 
 * {
@@ -19,11 +20,19 @@
 }
 
 body {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   background-color: var(--milk-foam);
   color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4, h5 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+::selection {
+  background-color: var(--accent-gold);
+  color: var(--espresso);
 }

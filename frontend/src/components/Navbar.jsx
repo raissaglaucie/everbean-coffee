@@ -20,13 +20,14 @@ function Navbar() {
 		<nav
 			style={{
 				backgroundColor: 'var(--espresso)',
-				padding: '1rem 2rem',
+				padding: '1.2rem 3rem',
 				display: 'flex',
 				justifyContent: 'space-between',
 				alignItems: 'center',
 				position: 'sticky',
 				top: 0,
 				zIndex: 100,
+				borderBottom: '1px solid rgba(201,169,110,0.15)',
 			}}
 		>
 			<Link
@@ -34,13 +35,14 @@ function Navbar() {
 				style={{
 					color: 'var(--accent-gold)',
 					textDecoration: 'none',
-					fontFamily: 'Playfair Display, serif',
-					fontSize: '1.5rem',
-					fontWeight: '700',
-					letterSpacing: '2px',
+					fontFamily: 'Cormorant Garamond, serif',
+					fontSize: '1.8rem',
+					fontWeight: '300',
+					letterSpacing: '6px',
+					textTransform: 'uppercase',
 				}}
 			>
-				☕ EVERBEAN
+				EVERBEAN
 			</Link>
 
 			<div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
