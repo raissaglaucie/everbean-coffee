@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { listProducts } from '../redux/slices/productSlice';
 
 function HomePage() {
@@ -34,26 +35,63 @@ function HomePage() {
 				}}
 			>
 				{products.map((product) => (
-					<div
+					<Link
 						key={product._id}
-						style={{
-							backgroundColor: 'white',
-							borderRadius: '12px',
-							padding: '1rem',
-							boxShadow: '0 2px 8px rgba(28,10,0,0.1)',
-						}}
+						to={`/product/${product._id}`}
+						style={{ textDecoration: 'none' }}
 					>
-						<h3 style={{ color: 'var(--coffee)' }}>{product.name}</h3>
-						<p style={{ color: 'var(--latte)' }}>${product.price}</p>
-					</div>
+						<div
+							style={{
+								backgroundColor: 'white',
+								borderRadius: '12px',
+								padding: '1.5rem',
+								boxShadow: '0 2px 8px rgba(28,10,0,0.1)',
+								transition: 'transform 0.2s, box-shadow 0.2s',
+								cursor: 'pointer',
+							}}
+							onMouseEnter={(e) => {
+								e.currentTarget.style.transform = 'translateY(-4px)';
+								e.currentTarget.style.boxShadow =
+									'0 8px 20px rgba(28,10,0,0.15)';
+							}}
+							onMouseLeave={(e) => {
+								e.currentTarget.style.transform = 'translateY(0)';
+								e.currentTarget.style.boxShadow = '0 2px 8px rgba(28,10,0,0.1)';
+							}}
+						>
+							<h3 style={{ color: 'var(--coffee)', marginBottom: '0.5rem' }}>
+								{product.name}
+							</h3>
+							<p
+								style={{
+									color: 'var(--latte)',
+									fontWeight: '700',
+									fontSize: '1.1rem',
+								}}
+							>
+								${product.price}
+							</p>
+							{product.category && (
+								<span
+									style={{
+										display: 'inline-block',
+										marginTop: '0.5rem',
+										padding: '0.2rem 0.6rem',
+										backgroundColor: 'var(--cream)',
+										color: 'var(--coffee)',
+										borderRadius: '20px',
+										fontSize: '0.75rem',
+										textTransform: 'uppercase',
+										letterSpacing: '1px',
+									}}
+								>
+									{product.category}
+								</span>
+							)}
+						</div>
+					</Link>
 				))}
 			</div>
-
-			{products.length === 0 && !loading && (
-				<p style={{ color: 'var(--coffee)' }}>
-					No products yet — add some in the admin panel!
-				</p>
-			)}
 		</div>
 	);
 }
