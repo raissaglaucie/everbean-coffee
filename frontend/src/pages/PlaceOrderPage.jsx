@@ -3,8 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { createOrder } from '../redux/slices/orderSlice';
 import { clearCart } from '../redux/slices/cartSlice';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const productImages = {
+	drinks:
+		'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=200&q=80',
+	beans:
+		'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=200&q=80',
+	food: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=200&q=80',
+	merch:
+		'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=200&q=80',
+};
 
 function PlaceOrderPage() {
 	const dispatch = useDispatch();
@@ -39,12 +46,6 @@ function PlaceOrderPage() {
 		Number(shippingPrice) +
 		Number(taxPrice)
 	).toFixed(2);
-
-	const getImageSrc = (image) => {
-		if (!image) return null;
-		if (image.startsWith('http')) return image;
-		return `${API_URL}${image}`;
-	};
 
 	const placeOrderHandler = () => {
 		dispatch(
@@ -375,15 +376,16 @@ function PlaceOrderPage() {
 							</div>
 							{cartItems.map((item) => (
 								<div key={item.product} className='placeorder-item'>
-									{getImageSrc(item.image) ? (
-										<img
-											src={getImageSrc(item.image)}
-											alt={item.name}
-											className='placeorder-item-img'
-										/>
-									) : (
-										<div className='placeorder-item-placeholder'>☕</div>
-									)}
+									<img
+										src={
+											item.image
+												? `${import.meta.env.VITE_API_URL}${item.image}`
+												: productImages[item.category?.toLowerCase()] ||
+													productImages.drinks
+										}
+										alt={item.name}
+										className='placeorder-item-img'
+									/>
 									<Link
 										to={`/product/${item.product}`}
 										className='placeorder-item-name'

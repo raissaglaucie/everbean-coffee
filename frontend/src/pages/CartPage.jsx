@@ -128,7 +128,12 @@ function CartPage() {
 										}}
 									>
 										<img
-											src={productImages[item.category] || productImages.drinks}
+											src={
+												item.image
+													? `${import.meta.env.VITE_API_URL}${item.image}`
+													: productImages[item.category?.toLowerCase()] ||
+														productImages.drinks
+											}
 											alt={item.name}
 											style={{
 												width: '100%',
