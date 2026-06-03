@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { listProducts } from '../redux/slices/productSlice';
 import WeatherWidget from '../components/WeatherWidget';
 
@@ -21,13 +21,15 @@ const fallbackImage =
 
 function HomePage() {
 	const dispatch = useDispatch();
+	const location = useLocation();
+	const keyword = new URLSearchParams(location.search).get('keyword') || '';
 	const { products, loading, error } = useSelector((state) => state.products);
 	const [activeCategory, setActiveCategory] = useState('all');
 	const [heroLoaded, setHeroLoaded] = useState(false);
 
 	useEffect(() => {
-		dispatch(listProducts());
-	}, [dispatch]);
+		dispatch(listProducts(keyword));
+	}, [dispatch, keyword]);
 
 	const filtered =
 		activeCategory === 'all'
@@ -348,7 +350,7 @@ function HomePage() {
 									lineHeight: '1',
 								}}
 							>
-								Our Menu
+								{keyword ? `"${keyword}"` : 'Our Menu'}
 							</h2>
 						</div>
 
@@ -544,7 +546,9 @@ function HomePage() {
 								fontStyle: 'italic',
 							}}
 						>
-							Nothing here yet — check back soon.
+							{keyword
+								? `No results for "${keyword}" — try another search.`
+								: 'Nothing here yet — check back soon.'}
 						</div>
 					)}
 				</div>
